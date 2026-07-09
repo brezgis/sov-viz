@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# PEP 621 metadata for the reusable `mitll_tda` toolkit (the N-class functional
+# API distilled from the "shape of vulnerability" notebooks). Set up with uv:
+#     uv venv
+#     uv pip install -e '.[projections]'
+[project]
+name = "mitll-tda"
+version = "0.1.0"
+description = "N-class topological-analysis toolkit (viz schemas, diagram distances, projections) distilled from the shape-of-vulnerability notebooks"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "matplotlib>=3.5.0",
+    "seaborn>=0.13.0",
+    "scikit-learn>=1.0.0",
+    "persim>=0.3.0",
+    "gudhi>=3.5.0",
+]
+
+[project.optional-dependencies]
+# Projection backends (PHATE recommended for latent spaces).
+projections = ["umap-learn>=0.5.0", "phate>=1.0.0", "openTSNE>=0.6.0"]
+# ripser is the diagram engine the notebooks used; gudhi is the built-in
+# fallback, so ripser is optional.
+ripser = ["ripser>=0.6.0"]
+# The text -> attention -> diagram pipeline needs transformer models.
+pipeline = ["torch>=2.0.0", "transformers>=4.20.0"]
+dev = ["pytest>=7.0.0"]
+
+[project.urls]
+Repository = "https://github.com/brezgis/sov-viz"
+
+# Only ship the reusable library package; the notebooks stay as-is at the repo
+# root and under mitll_adam/.
+[tool.setuptools.packages.find]
+include = ["mitll_tda*"]
